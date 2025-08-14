@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sarvesh Patki — Personal Portfolio</title>
+  <link rel="icon" href="https://i.ibb.co/ZsFxdkQ/d075f8140e6c227ce55ed9caea97e36b.gif" type="image/gif" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+  <style>
+    :root {
+      --glass: rgba(255, 255, 255, 0.06);
+      --accent-1: #60a5fa;
+      --accent-2: #3b82f6;
+      --accent-3: #2563eb;
+      --text-color: #e6eef8;
+      --bg-color: #020617;
+      --card-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+      --card-border: rgba(255, 255, 255, 0.03);
+      --shadow-color: rgba(2, 6, 23, 0.6);
+      --main-text: #e6eef8;
+      --sub-text: #94a3b8;
+    }
+
+    html.light {
+      --glass: rgba(255, 255, 255, 0.5);
+      --accent-1: #3b82f6;
+      --accent-2: #2563eb;
+      --accent-3: #1d4ed8;
+      --text-color: #0a0e1c;
+      --bg-color: #f0f4f8;
+      --card-bg: linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.01));
+      --card-border: rgba(0, 0, 0, 0.03);
+      --shadow-color: rgba(0, 0, 0, 0.15);
+      --main-text: #1f2937;
+      --sub-text: #6b7280;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, system-ui, Arial;
+      color: var(--text-color);
+      overflow-x: hidden;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      background-attachment: fixed;
+      transition: background-color 0.5s ease-in-out;
+    }
+
+    .grid-bg {
+      position: fixed;
+      inset: 0;
+      opacity: 0.03;
+      pointer-events: none;
+      background-image: linear-gradient(0deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 140px 140px, 140px 140px;
+      z-index: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+
+    html.light .grid-bg {
+      opacity: 0.1;
+      background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+    }
+
+    .wave-wrap {
+      position: fixed;
+      left: -20%;
+      top: 6%;
+      width: 140%;
+      height: 320px;
+      pointer-events: none;
+      opacity: 0.06;
+      z-index: 0;
+      overflow: hidden;
+      color: var(--accent-1);
+    }
+
+    .wave {
+      width: 200%;
+      height: 100%;
+      transform: translateX(0);
+      animation: waveMove 18s linear infinite;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(-20%); }
+      100% { transform: translateX(0); }
+    }
+
+    .glass {
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      transition: background 0.5s ease-in-out, border 0.5s ease-in-out;
+    }
+
+    .card {
+      box-shadow: 0 8px 30px var(--shadow-color);
+    }
+
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .pill {
+      position: relative;
+      border-radius: 9999px;
+      overflow: hidden;
+      display: block;
+      cursor: pointer;
+    }
+
+    .pill::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      background: transparent;
+      border-radius: 9999px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask-composite: exclude;
+      transition: background 220ms ease, transform 220ms ease;
+    }
+
+    .pill:hover::before {
+      background: linear-gradient(90deg, var(--accent-1), var(--accent-2), var(--accent-3));
+      transform: scale(1.02);
+    }
+
+    .pill .inner {
+      background: transparent;
+      padding: .55rem 1rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .xp-list {
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      margin-top: .6rem;
+    }
+
+    .xp-item {
+      display: flex;
+      flex-direction: column;
+      padding: .9rem;
+      border-radius: 10px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .hero-sub {
+      max-width: 58ch;
+      color: var(--sub-text);
+    }
+
+    .theme-toggle-icon {
+      transition: transform 0.3s ease;
+    }
+    .typing-text-container {
+      display: inline-block;
+      white-space: pre;
+    }
+    .main-content-section {
+      opacity: 0;
+      transform: translateY(50px);
+    }
+  </style>
+</head>
+<body class="dark flex flex-col md:flex-row min-h-screen">
+
+  <div class="grid-bg" aria-hidden="true"></div>
+  <div class="wave-wrap" aria-hidden="true">
+    <svg class="wave" viewBox="0 0 1440 320" preserveAspectRatio="xMinYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <path fill="currentColor" fill-opacity="0.08" d="M0,96L40,106.7C80,117,160,139,240,149.3C320,160,400,160,480,144C560,128,640,96,720,117.3C800,139,880,213,960,234.7C1040,256,1120,224,1200,213.3C1280,203,1360,213,1400,218.7L1440,224L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
+    </svg>
+  </div>
+  <div class="fixed top-6 right-6 z-50">
+    <button id="theme-toggle" class="p-2 rounded-full glass card hover:scale-110 active:scale-95 transition-transform" aria-label="Toggle theme">
+      <svg id="theme-icon-sun" class="h-6 w-6 text-yellow-500 theme-toggle-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2a1 1 0 011 1v1a1 1 0 01-2 0V3a1 1 0 011-1zm0 18a1 1 0 011 1v1a1 1 0 01-2 0v-1a1 1 0 011-1zM4.93 4.93a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zm14.14 14.14a1 1 0 011.414 0l.707.707a1 1 0 01-1.414 1.414l-.707-.707a1 1 0 010-1.414zM2 12a1 1 0 011-1h1a1 1 0 010 2H3a1 1 0 01-1-1zm18 0a1 1 0 011-1h1a1 1 0 010 2h-1a1 1 0 01-1-1zM4.93 19.07a1 1 0 010-1.414l.707-.707a1 1 0 011.414 1.414l-.707.707a1 1 0 01-1.414 0zm14.14-14.14a1 1 0 010 1.414l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 0zM12 6a6 6 0 100 12 6 6 0 000-12z" />
+      </svg>
+      <svg id="theme-icon-moon" class="h-6 w-6 text-slate-500 theme-toggle-icon hidden" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2.75a9.25 9.25 0 100 18.5A9.25 9.25 0 0012 2.75zM12 4a8 8 0 015.39 2.05A7.95 7.95 0 0012 4a7.95 7.95 0 00-5.39 2.05A8 8 0 0112 4z" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex-1 md:flex">
+    <aside id="profile-card" class="md:w-1/3 lg:w-1/4 p-6 md:h-screen md:sticky md:top-0 md:flex md:flex-col md:justify-center">
+      <div class="glass p-6 card">
+        <div class="flex flex-col items-center text-center space-y-4">
+          <img id="avatar" src="https://i.ibb.co/ZsFxdkQ/d075f8140e6c227ce55ed9caea97e36b.gif" alt="avatar" class="w-28 h-28 rounded-full ring-2 ring-blue-500/20" />
+          <div class="text-lg font-medium text-main-text">Sarvesh Patki</div>
+          <div class="text-xs text-sub-text">Jr. Engineer • Cloud Enthusiast</div>
+          <div class="w-full mt-3 grid grid-cols-2 gap-3">
+            <a class="pill" href="https://github.com/SarveshPatki" target="_blank" rel="noreferrer">
+              <div class="inner"><img src="https://i.ibb.co/GQyvXfcH/github.png" class="w-5 h-5 rounded-full" alt="github" /><span class="text-sm text-sub-text">GitHub</span></div>
+            </a>
+            <a class="pill" href="https://discord.com/users/741184115981680702" target="_blank" rel="noreferrer">
+              <div class="inner"><img src="https://i.ibb.co/2Y5hfgk8/discord.jpg" class="w-5 h-5 rounded-full" alt="discord" /><span class="text-sm text-sub-text">Discord</span></div>
+            </a>
+            <a class="pill" href="mailto:phonesarvesh95@gmail.com" target="_blank" rel="noreferrer">
+              <div class="inner"><img src="https://i.ibb.co/9HSqjHZR/email.png" class="w-5 h-5 rounded-full" alt="email" /><span class="text-sm text-sub-text">Email</span></div>
+            </a>
+            <a class="pill" href="#" target="_blank" rel="noreferrer">
+              <div class="inner"><img src="https://i.ibb.co/fdxywY36/reddit.jpg" class="w-5 h-5 rounded-full" alt="maybe one in future" /><span class="text-sm text-sub-text">maybe one in future</span></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="flex-1 p-6 space-y-8 md:pl-0">
+      <header id="main-header" class="glass card p-8 main-content-section">
+        <h1 class="text-2xl md:text-3xl font-semibold leading-tight">
+          <span id="headline-text" class="gradient-text typing-text-container"></span>
+        </h1>
+        <p id="hero-sub" class="hero-sub mt-3">Passionate about reliable infrastructure, automation, and scalable hosting. I spend my time learning Linux internals, building deployment scripts and helping users get services online.</p>
+        <div id="github-btn-wrap" class="mt-6 text-right">
+          <a href="https://github.com/SarveshPatki" target="_blank" class="inline-block px-4 py-2 rounded-md bg-gradient-to-r from-[#60a5fa] to-[#2563eb] text-white font-medium hover:scale-105 transition-transform">View GitHub</a>
+        </div>
+      </header>
+
+      <section id="experience" class="glass p-6 card main-content-section">
+        <h2 class="text-xl font-semibold gradient-text">Experience & Education</h2>
+        <div id="xp-list" class="xp-list">
+          <div class="xp-item">
+            <div class="xp-role font-bold text-main-text">Age</div>
+            <div class="xp-meta text-sub-text">18 years old</div>
+          </div>
+          <div class="xp-item">
+            <div class="xp-role font-bold text-main-text">Education</div>
+            <div class="xp-meta text-sub-text">Currently pursuing <strong>B.Sc. Data Science & Big Data Analytics</strong> — <a href="https://maps.app.goo.gl/8xWeNx8p3iBLaQcy5" target="_blank" rel="noreferrer" class="underline text-blue-400">MIT-WPU (map)</a></div>
+          </div>
+          <div class="xp-item">
+            <div class="xp-role font-bold text-main-text">Support & System Administration</div>
+            <div class="xp-meta text-sub-text">5 years supporting users and services, and 2.5 years focused on system administration — maintaining uptime, handling escalations, and automating repetitive tasks to make operations smoother.</div>
+          </div>
+          <div class="xp-item">
+            <div class="xp-role font-bold text-main-text">Current roles</div>
+            <div class="xp-meta text-sub-text">Administrative at <a href="https://freezehost.pro/" target="_blank" rel="noreferrer" class="underline text-blue-400">FreezeHost.pro</a> — free hosting initiative (since March 2025).<br>Jr. Engineer at <a href="https://coderoasis.com/" target="_blank" rel="noreferrer" class="underline text-blue-400">Coderoasis.com</a> — assisting with infrastructure and platform work.</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="projects" class="glass p-6 card main-content-section">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold text-main-text">Latest projects</h3>
+          <a class="text-sm gradient-text" href="https://github.com/SarveshPatki">See all</a>
+        </div>
+        <ul id="project-list" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <li class="p-3 border border-gray-200/20 dark:border-white/5 rounded-md hover:scale-[1.02] transition-transform cursor-pointer">
+            <div class="font-medium text-main-text">In-progress project</div>
+            <div class="text-xs text-sub-text">Work in progress — <a href="https://github.com/SarveshPatki/sarveshpatki.github.io/tree/main" target="_blank" class="underline text-blue-400">site repository</a></div>
+          </li>
+          <li class="p-3 border border-gray-200/20 dark:border-white/5 rounded-md hover:scale-[1.02] transition-transform cursor-pointer">
+            <div class="font-medium text-main-text">personal-hosting</div>
+            <div class="text-xs text-sub-text">Guides & scripts for cheap hosting and automation</div>
+          </li>
+        </ul>
+      </section>
+
+      <footer class="text-center py-8 text-sm text-gray-400 dark:text-gray-300 relative z-10">© 2025 <span class="font-medium">Sarvesh Patki</span>. Made with curiosity.</footer>
+    </main>
+  </div>
+
+  <script>
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+    // Initial load animation timeline
+    const masterTimeline = gsap.timeline();
+
+    // 1. Sidebar entrance
+    masterTimeline.from('#profile-card', {
+      opacity: 0,
+      x: -50,
+      duration: 1,
+      ease: 'power2.out',
+    });
+
+    // 2. Main header entrance
+    masterTimeline.from('#main-header', {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: 'power2.out',
+    }, '-=0.5'); // Start 0.5s before sidebar finishes
+
+    // 3. Hero text animation with TextPlugin
+    masterTimeline.to("#headline-text", {
+      duration: 3,
+      text: "Hi! I'm Sarvesh Patki — learning Linux & building cloud tools",
+      ease: "power1.in",
+    }, '-=0.5'); // Start at the same time as main header
+
+    // 4. Hero subtext and button reveal
+    masterTimeline.from('#hero-sub, #github-btn-wrap', {
+      opacity: 0,
+      y: 20,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: 'power2.out'
+    });
+
+    // Scroll-triggered animations for content sections
+    gsap.utils.toArray('.main-content-section').forEach((section) => {
+      gsap.from(section, {
+        opacity: 0,
+        y: 50,
+        scale: 0.95,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          end: 'bottom 20%',
+          toggleActions: 'play none none reverse',
+        },
+      });
+    });
+
+    // Hover effects for interactive cards
+    gsap.utils.toArray('.xp-item, #project-list li').forEach(item => {
+      item.addEventListener('mouseenter', () => {
+        gsap.to(item, {
+          y: -5,
+          boxShadow: '0 12px 25px var(--shadow-color)',
+          duration: 0.3,
+          ease: "power1.out",
+          scale: 1.02
+        });
+      });
+      item.addEventListener('mouseleave', () => {
+        gsap.to(item, {
+          y: 0,
+          boxShadow: '0 8px 30px var(--shadow-color)',
+          duration: 0.3,
+          ease: "power1.out",
+          scale: 1
+        });
+      });
+    });
+
+    // Avatar hover animation
+    gsap.set("#avatar", { transformOrigin: "center center" });
+    document.getElementById('avatar').addEventListener('mouseenter', () => {
+      gsap.to("#avatar", { scale: 1.1, rotate: 10, duration: 0.4 });
+    });
+    document.getElementById('avatar').addEventListener('mouseleave', () => {
+      gsap.to("#avatar", { scale: 1, rotate: 0, duration: 0.4 });
+    });
+
+    // Theme toggle functionality with animated icon switch
+    const themeToggle = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    const sunIcon = document.getElementById('theme-icon-sun');
+    const moonIcon = document.getElementById('theme-icon-moon');
+
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('light')) {
+        html.classList.remove('light');
+        html.classList.add('dark');
+        gsap.fromTo(sunIcon, { scale: 0.5, rotate: -90, opacity: 0 }, { scale: 1, rotate: 0, opacity: 1, duration: 0.3 });
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        html.classList.remove('dark');
+        html.classList.add('light');
+        gsap.fromTo(moonIcon, { scale: 0.5, rotate: 90, opacity: 0 }, { scale: 1, rotate: 0, opacity: 1, duration: 0.3 });
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    });
+  </script>
+</body>
+</html>
